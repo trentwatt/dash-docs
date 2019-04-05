@@ -221,6 +221,7 @@ app$layout(htmlDiv(list(
 ),
 
 
+
 # app$callback(output("output-container-button", "children"),
 #              list(input("button", "n_clicks"),
 #                   input("input-box", "value")),
@@ -230,6 +231,54 @@ app$layout(htmlDiv(list(
 
 # examples$button1$source,
 # examples$button1$layout,
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('DatePickerSingle')),
+utils$LoadAndDisplayComponent(
+'library(dashR)
+library(dashCoreComponents)
+library(lubridate)
+
+
+dccDatePickerSingle(
+    id="date-picker-single",
+    date=ymd("1997-05-10")
+)
+'
+),
+
+htmlDiv(titleLink('DatePickerRange')),
+utils$LoadAndDisplayComponent(
+  'library(dashR)
+library(dashCoreComponents)
+library(lubridate)
+
+dccDatePickerRange(
+    id="date-picker-range",
+    start_date=ymd("1997-05-3"),
+    end_date_placeholder_text="Select a date!"
+)
+'
+),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('dccMarkdown')),
+utils$LoadAndDisplayComponent(
+'library(dashR)
+library(dashCoreComponents)
+
+dccMarkdown("
+#### Dash and Markdown
+
+Dash supports [Markdown](http://commonmark.org/help).
+
+Markdown is a simple way to write and format text.
+It includes a syntax for things like **bold text** and *italics*,
+[links](http://commonmark.org/help), inline `code` snippets, lists,
+quotes, and more.
+")
+'
+),
 htmlDiv(referenceLink('dropdown'))
 
 ))
