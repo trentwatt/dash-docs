@@ -54,3 +54,12 @@ LoadAndDisplayComponent <- function(example_string) {
     )
   )))
 }
+
+LoadComponent <- function(example_string) {
+  return(htmlDiv(list(
+    htmlDiv(
+      children=dccSyntaxHighlighter(example_string),
+      className='code-container'
+    )
+  )))
+}
