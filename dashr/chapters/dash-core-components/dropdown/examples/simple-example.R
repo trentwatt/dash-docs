@@ -13,7 +13,7 @@ app$layout_set(htmlDiv(list(
       list(label="Montréal", value="MTL"),
       list(label="San Francisco", value="SF")
     ),
-    value="MTL",
+    value="NYC",
     id="my-dropdown"
   ),
   htmlDiv(id="output-container")
