@@ -279,6 +279,74 @@ quotes, and more.
 ")
 '
 ),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('Interactive Tables')),
+utils$LoadAndDisplayComponent(
+'library(dashR)
+library(dashCoreComponents)
+
+dccMarkdown("
+The `dashHtmlComponents` library exposes all of the HTML tags.
+This includes the `Table`, `Tr`, and `Tbody` tags that can be used to create an HTML table.
+See [Create Your First Dash App, Part 1](/getting-started-part-1) for an example.
+Dash provides an interactive`DataTable` as part of the `data-table` project.
+This table includes built-in filtering, row-selection, editing, and sorting.
+![Example of a Dash Interactive Table](https://dash.plot.ly/assets/images/gallery/DataTable.gif)
+")
+
+'
+),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('Upload Component')),
+utils$LoadAndDisplayComponent(
+'library(dashR)
+library(dashCoreComponents)
+
+dccMarkdown("
+The `dccUpload` component allows users to upload files into your app
+through drag-and-drop or the system\'s native file explorer.
+![Dash Upload Component](https://user-images.githubusercontent.com/1280389/30351245-6b93ee62-97e8-11e7-8e85-0411e9d6c98c.gif)
+")
+
+'
+),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('Tabs')),
+utils$LoadAndDisplayComponent(
+'library(dashR)
+library(dashCoreComponents)
+library(dashHtmlComponents)
+
+dccMarkdown("
+The Tabs and Tab components can be used to create tabbed sections in your app.
+")
+
+app$layout(htmlDiv(list(
+    dccTabs(id="tabs", value="tab-1", children=list(
+        dccTab(label="Tab one", value="tab-1"),
+        dccTab(label="Tab two", value="tab-2")
+    )),
+    htmlDiv(id="tabs-content")
+)))
+'
+),
+
+# app$callback(output("tabs-content", "children"),
+#              list(input("tabs", "value")),
+#              function(tab) {
+#                if(tab == "tab-1"){
+#                  return(htmlDiv(list(
+#                    htmlH3("Tab content 1")
+#                  )))
+#                }else if(tab == "tab-2"){
+#                  return(htmlDiv(list(
+#                    htmlH3("Tab content 2")
+#                  )))
+#                }
+#              })
 htmlDiv(referenceLink('dropdown'))
 
 ))
