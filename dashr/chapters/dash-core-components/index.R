@@ -7,7 +7,8 @@ source('dashr/utils.R', local=utils)
 
 examples <- list(
   button1 = utils$LoadExampleCode('dashr/chapters/dash-core-components/button/examples/simple-example.R'),
-  graph1 = utils$LoadExampleCode('dashr/chapters/dash-core-components/graphs/examples/simple-example.R')
+  graph1 = utils$LoadExampleCode('dashr/chapters/dash-core-components/graphs/examples/simple-example.R'),
+  confirmDialog1 = utils$LoadExampleCode('dashr/chapters/dash-core-components/confirmDialog/examples/simple-example.R')
 )
 
 
@@ -306,13 +307,16 @@ This table includes built-in filtering, row-selection, editing, and sorting.
 htmlDiv(referenceLink('dropdown')),
 
 htmlDiv(titleLink('Upload Component')),
+dccMarkdown("
+The `dccUpload` component allows users to upload files into your app
+through drag-and-drop or the system\'s native file explorer.
+![Dash Upload Component](https://user-images.githubusercontent.com/1280389/30351245-6b93ee62-97e8-11e7-8e85-0411e9d6c98c.gif)
+"),
 utils$LoadAndDisplayComponent(
 'library(dashR)
 library(dashCoreComponents)
 
 dccMarkdown("
-The `dccUpload` component allows users to upload files into your app
-through drag-and-drop or the system\'s native file explorer.
 ![Dash Upload Component](https://user-images.githubusercontent.com/1280389/30351245-6b93ee62-97e8-11e7-8e85-0411e9d6c98c.gif)
 ")
 
@@ -430,20 +434,72 @@ There is also a `dccConfirmDialogProvider`,
 it will automatically wrap a child component to send a `dccConfirmDialog` when clicked.
 "),
 
-# utils$LoadAndDisplayComponent(
-# "library(dashR)
-# library(dashCoreComponents)
-#
-# confirm = dccConfirmDialogProvider(
-#     children=htmlButton(
-#         'Click Me',
-#     ),
-#     id='danger-danger',
-#     message='Danger danger! Are you sure you want to continue?'
-# )
-# "
-# ),
-htmlDiv(referenceLink('dropdown'))
+utils$LoadComponent(
+"library(dashR)
+library(dashCoreComponents)
+
+confirm = dccConfirmDialogProvider(
+    children=htmlButton(
+        'Click Me',
+    ),
+    id='danger-danger',
+    message='Danger danger! Are you sure you want to continue?'
+)
+"
+),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('Store')),
+dccMarkdown("
+The store component can be used to keep data in the visitor's browser. The data is scoped to the user accessing the page.
+Three types of storage (`storage_type` prop):
+
+- `memory`: default, keep the data as long the page is not refreshed.
+- `local`: keep the data until it is manually cleared.
+- `session`: keep the data until the browser/tab closes.
+For `local/session`, the data is serialized as json when stored.
+"),
+utils$LoadComponent(
+"library(dashR)
+library(dashCoreComponents)
+
+store = dccStore(id='my-store', data=list('my-data' = 'data')
+"
+),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('Logout Button')),
+dccMarkdown("
+The logout button can be used to perform logout mechanism.
+It's a simple form with a submit button, when the button is clicked,
+it will submit the form to the`logout_url` prop.
+Please note that no authentication is performed in Dash by default
+and you have to implement the authentication yourself.
+"),
+htmlDiv(referenceLink('dropdown')),
+
+htmlDiv(titleLink('Loading component')),
+dccMarkdown("
+The Loading component can be used to wrap components that you want to display a spinner for,
+if they take too long to load.
+It does this by checking if any of the Loading components' children have a `loading_state` prop set
+where `is_loading` is true. If true, it will display one of the built-in CSS spinners.
+"),
+utils$LoadComponent(
+"library(dashR)
+library(dashCoreComponents)
+
+loading = dccLoading(list(
+    # ...
+))
+"
+),
+htmlDiv(referenceLink('dropdown')),
+
+htmlHr(),
+dccMarkdown("
+[Back to the Table of Contents](/)
+  ")
 
 ))
 

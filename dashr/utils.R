@@ -63,3 +63,12 @@ LoadComponent <- function(example_string) {
     )
   )))
 }
+
+DisplayComponent <- function(example_string) {
+  return(htmlDiv(list(
+    htmlDiv(
+      className='example-container',
+      children=eval(parse(text=example_string))
+    )
+  )))
+}
