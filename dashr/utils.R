@@ -50,6 +50,7 @@ LoadAndDisplayComponent <- function(example_string) {
     ),
     htmlDiv(
       className='example-container',
+      style = list("overflow-x" = "initial"),
       children=eval(parse(text=example_string))
     )
   )))
@@ -73,23 +74,3 @@ DisplayComponent <- function(example_string) {
   )))
 }
 
-ComponentBlock <- function(f, customStyle = list(borderLeft = 'thin lightgrey solid'), ...) {
-  # TODO: use plain expressions instead? That would make it more user friendly
-  if (!inherits(f, "formula")) stop("f must be a formula", call. = FALSE)
-  txt <- styler::style_text(deparse(f))
-  # coreSyntaxHighlighter() doesn't like character strings with length > 1...
-  string <- paste(txt, collapse = "\n")
-  htmlDiv(
-    coreSyntaxHighlighter(
-      # removes the starting ~ (isn't always correct, but good enough for the tutorial)
-      substr(string, 2, nchar(string)),
-      language = 'r',
-      customStyle = customStyle,
-      ...
-    ),
-    htmlDiv(
-      className = 'example-container',
-      lazyeval::f_eval(f)
-    )
-  )
-}

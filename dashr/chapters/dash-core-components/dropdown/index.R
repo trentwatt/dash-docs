@@ -170,6 +170,15 @@ dccMarkdown("
 
 ## Dropdown Properties
 "),
+dccMarkdown(help(dccDropdown)),
+utils$LoadAndDisplayComponent(
+  '
+library(dashR)
+library(dashCoreComponents)
+
+dccMarkdown(help(dccDropdown))
+'
+),
 
 htmlHr(),
 dccMarkdown("

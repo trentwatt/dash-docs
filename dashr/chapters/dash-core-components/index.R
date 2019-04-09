@@ -80,7 +80,7 @@ utils$LoadAndDisplayComponent(
 dccSlider(
     min=0,
     max=9,
-    marks=c(paste("Label", 0:10)),
+    marks=c(paste("Label", 0:9)),
     value=5,
 )
 '
@@ -104,7 +104,7 @@ utils$LoadAndDisplayComponent(
 'library(dashCoreComponents)
 
 dccRangeSlider(
-    marks=c(paste("Label", -5:7)),
+    marks=c(paste("Label", -5:6)),
     min=-5,
     max=6,
     value=list(-3, 4)
