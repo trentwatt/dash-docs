@@ -1,6 +1,8 @@
 library(dashCoreComponents)
 library(dashHtmlComponents)
 library(dashR)
+# Load the package required to read JSON files.
+library("rjson")
 
 utils <- new.env()
 source('dashr/utils.R', local=utils)
@@ -176,9 +178,21 @@ utils$LoadAndDisplayComponent(
 library(dashR)
 library(dashCoreComponents)
 
-dccMarkdown(help(dccDropdown))
+result <- fromJSON(file = "~/plotly/github/ryan/dash-core-components/dash_core_components/metadata.json")
+result <- result$`src/components/Dropdown.react.js`
+dccMarkdown(result$description)
+for(att in result){dccMarkdown(att)}
 '
 ),
+
+
+# require(jsonlite)
+# require(tidyr) # or require(tidyverse)
+# dat <- fromJSON(file = "~/plotly/github/ryan/dash-core-components/dash_core_components/metadata.json", flatten = TRUE) # flatten = TRUE flattens dets
+# dat <- dat$`src/components/Dropdown.react.js`
+# dat <- dat[, c("props", "value")] # just for simplification
+# unnest(dat, value)
+
 
 htmlHr(),
 dccMarkdown("
