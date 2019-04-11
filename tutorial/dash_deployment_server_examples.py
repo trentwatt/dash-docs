@@ -1445,8 +1445,8 @@ Cli = html.Div(children=[
     
         If you wish to disable deploying for a period of time, this can be
         done via deploy locks. Normally, deploy locks exist only for the duration
-        of a deploy so as to avoid deploys from colliding, but a deploy lock can
-        be created by running the apps:lock command. 
+        of a deploy to prevent deploys from colliding, but a deploy lock can
+        be created at any time by running the apps:lock command. 
     
         **Example:**
     
@@ -1480,7 +1480,7 @@ Cli = html.Div(children=[
         dcc.Markdown(s('''
         &nbsp;
         
-        You can easily get logs of an app using the logs command:
+        You can get logs of an app using the logs command:
     
         **Example:**
         `ssh dokku@your-dash-deployment-server -p PORT logs my-dash-app`
@@ -1507,7 +1507,7 @@ Cli = html.Div(children=[
         &nbsp;
         
         In some cases, it may be useful to retrieve the logs from a previously failed deploy.
-        You can retrieve these logs by using the logs:failed command.
+        You can retrieve these logs with the logs:failed command.
     
         **Example:**
 
@@ -1619,11 +1619,11 @@ Cli = html.Div(children=[
 
         `ssh dokku@your-dash-deployment-server -p PORT ps:scale my-dash-app web=1 worker=1`
         
-        Issuing the ps:scale command with no process type argument will output
+        The ps:scale command with no process type argument will output
         the current scaling settings for an application:
         
         ```
-        dokku ps:scale my-dash-app
+        ssh dokku@your-dash-deployment-server -p PORT ps:scale my-dash-app
         -----> Scaling for my-dash-app
         -----> proctype           qty
         -----> --------           ---
@@ -1636,12 +1636,13 @@ Cli = html.Div(children=[
     ]),
 
     html.Details([
-        html.Summary("List mapped directories"),
+        html.Summary("List persistent storage directories"),
         dcc.Markdown(s('''
             &nbsp;
             
-            List bind mounts for app's container(s) (host:container).
-            See our doc on [mapping local directories](/dash-deployment-server/map-local-directories) for more info.
+            List bind mounts for an app's container(s) (host:container).
+            See our doc on [mapping local directories](/dash-deployment-server/map-local-directories) for more info on
+            how to set these up.
 
             **Example:**
             `ssh dokku@your-dash-deployment-server -p PORT storage:list my-dash-app`
