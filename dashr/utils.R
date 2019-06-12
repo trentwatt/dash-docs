@@ -72,9 +72,9 @@ LoadAndDisplayComponent <- function(example_string) {
   )
 }
 
-# usage: props_to_list("componentName"), e.g. "htmlP", "dccGraph"
+# usage: propsToList("componentName"), e.g. "htmlP", "dccGraph"
 # returns: list of props, containing elements with name/desc/type
-props_to_list <- function(componentName) {
+propsToList <- function(componentName) {
   Rd <- utils:::.getHelpFile(do.call(`?`, 
                                      list(componentName)))
   
