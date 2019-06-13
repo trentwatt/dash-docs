@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_daq as daq
 from textwrap import dedent as s
 
 from tutorial import styles
 from tutorial import tools
-from tutorial.utils.convert_props_to_table_daq import generate_prop_table
+from tutorial.utils.convert_props_to_table import generate_prop_info
 from tutorial.utils.component_block import ComponentBlock
 from tutorial.components import Syntax, Example
 
@@ -90,7 +91,7 @@ daq.BooleanSwitch(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Boolean Switch Properties"),
-    generate_prop_table('BooleanSwitch')
+    generate_prop_info('BooleanSwitch', lib=daq)
 ])
 
 # ColorPicker
@@ -160,7 +161,7 @@ value=dict(rgb=dict(r=255, g=0, b=0, a=0))
     html.Hr(),
     html.Hr(),
     html.H3("Color Picker Properties"),
-    generate_prop_table('ColorPicker')
+    generate_prop_info('ColorPicker', lib=daq)
 ])
 
 # Gauge
@@ -269,7 +270,7 @@ daq.Gauge(
 )''' , customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Gauge Properties"),
-    generate_prop_table('Gauge')
+    generate_prop_info('Gauge', lib=daq)
 ])
 
 # Graduated Bar
@@ -359,7 +360,7 @@ daq.GraduatedBar(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Graduated Bar Properties"),
-    generate_prop_table('GraduatedBar')
+    generate_prop_info('GraduatedBar', lib=daq)
 ])
 
 # Indicator
@@ -422,7 +423,7 @@ daq.Indicator(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Indicator Properties"),
-    generate_prop_table('Indicator')
+    generate_prop_info('Indicator', lib=daq)
 ])
 
 # Joystick
@@ -465,7 +466,7 @@ daq.Joystick(
     html.Hr(),
 
     html.H3('Joystick Properties'),
-    generate_prop_table('Joystick')
+    generate_prop_info('Joystick', lib=daq)
 ])
 
 # Knob
@@ -539,7 +540,7 @@ daq.Knob(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Knob Properties"),
-    generate_prop_table('Knob')
+    generate_prop_info('Knob', lib=daq)
 ])
 
 # LED Display
@@ -602,7 +603,7 @@ daq.LEDDisplay(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("LED Display Properties"),
-    generate_prop_table('LEDDisplay')
+    generate_prop_info('LEDDisplay', lib=daq)
 ])
 
 # Numeric Input
@@ -665,7 +666,7 @@ daq.NumericInput(
     html.Hr(),
     html.Hr(),
     html.H3("Numeric Input Properties"),
-    generate_prop_table('NumericInput')
+    generate_prop_info('NumericInput', lib=daq)
 ])
 
 # Power Button
@@ -714,7 +715,7 @@ daq.PowerButton(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Power Button Properties"),
-    generate_prop_table('PowerButton')
+    generate_prop_info('PowerButton', lib=daq)
 ])
 
 # Precision Input
@@ -787,7 +788,7 @@ daq.PrecisionInput(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Precision Input Properties"),
-    generate_prop_table('PrecisionInput')
+    generate_prop_info('PrecisionInput', lib=daq)
 ])
 
 # Stop Button
@@ -842,7 +843,7 @@ daq.StopButton(
 )''', customStyle=styles.code_container, language='python'),
     html.Hr(),
     html.H3("Stop Button Properties"),
-    generate_prop_table('StopButton')
+    generate_prop_info('StopButton', lib=daq)
 ])
 
 # Slider
@@ -918,7 +919,7 @@ daq.Slider(
     html.Hr(),
 
     html.H3("Slider Properties"),
-    generate_prop_table("Slider")
+    generate_prop_info("Slider", lib=daq)
 
 ])
 
@@ -1007,7 +1008,7 @@ daq.Tank(
     html.Hr(),
 
     html.H3('Tank Properties'),
-    generate_prop_table("Tank")
+    generate_prop_info("Tank", lib=daq)
 ])
 
 # Thermometer
@@ -1081,7 +1082,7 @@ daq.Thermometer(
     html.Hr(),
 
     html.H3('Thermometer Properties'),
-    generate_prop_table("Thermometer")
+    generate_prop_info("Thermometer", lib=daq)
 
 ])
 
@@ -1134,7 +1135,7 @@ daq.ToggleSwitch(
     html.Hr(),
 
     html.H3('Toggle Switch Properties'),
-    generate_prop_table("ToggleSwitch")
+    generate_prop_info("ToggleSwitch", lib=daq)
 
 ])
 
@@ -1158,5 +1159,5 @@ DarkThemeProvider = html.Div(children=[
     html.Hr(),
 
     html.H3('Dark Theme Provider Properties'),
-    generate_prop_table("DarkThemeProvider")
+    generate_prop_info("DarkThemeProvider", lib=daq)
 ])

@@ -10,7 +10,7 @@ import dash_bio
 if __name__ != '__main__':
     from tutorial import styles
     from tutorial.utils.component_block import ComponentBlock
-    from tutorial.utils.convert_props_to_table import generate_prop_table
+    from tutorial.utils.convert_props_to_table import generate_prop_info
 else:
     from convert_props_to_table import js_to_py_type
 
@@ -422,7 +422,7 @@ def create_doc_page(examples, component_names, component_name, component_example
                                examples[component_name],
                                styles=styles) +
         component_examples +
-        [generate_prop_table(
+        [generate_prop_info(
             c_name,
             lib=dash_bio)]
     )

@@ -10,7 +10,7 @@ import re
 from textwrap import dedent
 
 
-def generate_prop_table(component_name, lib=dcc):
+def generate_prop_info(component_name, lib=dcc):
     component = getattr(lib, component_name)
     component_doc = component.__doc__
     subs = [
