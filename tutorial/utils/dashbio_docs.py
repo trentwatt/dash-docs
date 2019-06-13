@@ -7,12 +7,9 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_bio
 
-if __name__ != '__main__':
-    from tutorial import styles
-    from tutorial.utils.component_block import ComponentBlock
-    from tutorial.utils.convert_props_to_table import generate_prop_info
-else:
-    from convert_props_to_table import js_to_py_type
+from tutorial import styles
+from tutorial.utils.component_block import ComponentBlock
+from tutorial.utils.convert_props_to_list import generate_prop_info
 
 from textwrap import dedent as s
 

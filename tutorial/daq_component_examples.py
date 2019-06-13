@@ -6,7 +6,7 @@ from textwrap import dedent as s
 
 from tutorial import styles
 from tutorial import tools
-from tutorial.utils.convert_props_to_table import generate_prop_info
+from tutorial.utils.convert_props_to_list import generate_prop_info
 from tutorial.utils.component_block import ComponentBlock
 from tutorial.components import Syntax, Example
 
