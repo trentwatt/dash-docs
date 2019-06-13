@@ -5,11 +5,12 @@ import sys
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import dash_bio
 
 if __name__ != '__main__':
     from tutorial import styles
     from tutorial.utils.component_block import ComponentBlock
-    from tutorial.utils.convert_props_to_table import js_to_py_type
+    from tutorial.utils.convert_props_to_table import generate_prop_table
 else:
     from convert_props_to_table import js_to_py_type
 
@@ -388,110 +389,6 @@ def create_examples(
     return examples
 
 
-def generate_prop_table(
-        component_name,
-        component_names,
-        library_name
-):
-    '''Generate a prop table for each component (both React and Python).
-
-    :param (str) component_name: The name of the component as it is
-    defined within the package.
-    :param (dict[list]) component_names: A dictionary defining which
-    components are React components, and which are Python
-    components. The keys in the dictionary are 'react' and 'python',
-    and the values for each are lists containing the names of the
-    components that belong to each category.
-    :param (str) library_name: The name of the library.
-
-    :rtype (object): An html.Table containing data on the props of the component.
-
-    '''
-
-    regex = {
-         'python': r'^\s*([a-zA-Z_]*)\s*\(([a-zA-Z\/]*);\s*([a-z]*)\):\s*(.*?)\s*(\(Default:\s*(.*)\)|)\s*$'
-    }
-
-    component_type = 'react' \
-        if component_name in component_names['react'] else 'python'
-
-    tableRows = [html.Tr([
-        html.Th('Attribute'),
-        html.Th('Description'),
-        html.Th('Type'),
-        html.Th('Default value')
-    ])]
-
-    exec("import {}".format(library_name))
-
-    if component_type == 'python':
-        sep = '\n-'
-        doc = eval("{}.{}".format(library_name, component_name)).__doc__
-
-        props = doc.split(sep)
-
-    elif component_type == 'react':
-
-        path = os.path.join(os.path.dirname(os.path.abspath(eval(library_name).__file__)),
-                            'metadata.json')
-        with open(path, 'r') as f:
-            metadata = json.load(f)
-
-        # Mol3d for some reason is a plain JS file, not a react file
-        cname = '{}.react.js'.format(component_name)
-        if component_name == 'Molecule3dViewer':
-            cname = 'Molecule3dViewer.js'
-        docs = metadata['src/lib/components/{}'.format(cname)]
-
-        props = docs['props']
-
-    for prop in props:
-        if component_type == 'python':
-            desc_sections = prop.split('\n\n')
-
-            partone = desc_sections[0].replace('    ', ' ')
-
-            r = re.match(
-                re.compile(regex[component_type]),
-                partone.replace('\n', ' ')
-            )
-
-            if r is None:
-                continue
-
-            (prop_name, prop_type, prop_optional, prop_desc, _, prop_default) = r.groups()
-            if prop_default is None:
-                prop_default = ''
-            if 'optional' in prop_optional:
-                prop_optional = ''
-
-            if len(desc_sections) > 1:
-                prop_desc += ' '
-                prop_desc += desc_sections[1]
-
-        elif component_type == 'react':
-            prop_name = prop
-            prop_desc = props[prop]['description']
-            prop_type = js_to_py_type(props[prop]['type'])
-
-            if 'defaultValue' in props[prop].keys():
-                prop_default = props[prop]['defaultValue']['value']
-            else:
-                prop_default = ''
-
-        tableRows.append(
-            html.Tr([html.Td(dcc.Markdown(prop_name)),
-                     html.Td(dcc.Markdown(prop_desc)),
-                     html.Td(dcc.Markdown(prop_type)),
-                     html.Td(dcc.SyntaxHighlighter(prop_default))])
-        )
-
-    return html.Div([
-        html.H3("{} Properties".format(component_name)),
-        html.Table(tableRows)
-    ])
-
-
 def create_doc_page(examples, component_names, component_name, component_examples=None):
     '''Generates a documentation page for a component.
 
@@ -527,20 +424,5 @@ def create_doc_page(examples, component_names, component_name, component_example
         component_examples +
         [generate_prop_table(
             c_name,
-            component_names,
-            'dash_bio')]
+            lib=dash_bio)]
     )
-
-
-if __name__ == '__main__':
-
-    app = dash.Dash()
-
-    components = get_component_names('dash_bio')
-    app.layout = html.Div(
-        [generate_prop_table(component, components, 'dash_bio')
-         for component in components['react']] +
-        [generate_prop_table(component, components, 'dash_bio')
-         for component in components['python']]
-    )
-    app.run_server(debug=True)
