@@ -597,6 +597,13 @@ chapters = {
         'description': 'Ideogram examples, properties, and reference.'
     },
 
+    'molecule-2d-examples': {
+        'url': '/dash-bio/molecule2dviewer',
+        'content': dashbio_examples.Molecule2dViewer,
+        'name': 'Molecule 2D Component',
+        'description': 'Molecule2D examples, properties, and reference.'
+    },
+
     'molecule-3d-examples': {
         'url': '/dash-bio/molecule3dviewer',
         'content': dashbio_examples.Molecule3dViewer,
@@ -682,6 +689,13 @@ chapters = {
         'content': dds_examples.AppPrivacy,
         'name': 'Dash App Privacy',
         'description': 'Dash App Privacy and Managing Collaborators'
+    },
+
+    'deployment-checks': {
+        'url': '/dash-deployment-server/checks',
+        'content': dds_examples.Checks,
+        'name': 'Dash Deployment Health Checks',
+        'description': 'Create custom checks to ensure that a newly deployed app can serve traffic.'
     },
 
     'private-packages-examples': {

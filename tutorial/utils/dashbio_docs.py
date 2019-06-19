@@ -136,7 +136,7 @@ def generate_component_example(
 
     # location of all sample data
     DATA_LOCATION_PREFIX = '''https://raw.githubusercontent.com/plotly/\
-dash-bio/master/tests/dashbio_demos/sample_data/'''
+dash-bio-docs-files/master/'''
 
     if library_imports is None:
         library_imports = []
@@ -173,15 +173,13 @@ dash-bio/master/tests/dashbio_demos/sample_data/'''
         library_imports.append(
             ['urllib.request', 'urlreq']
         )
-
         # only decode for python 3
         decode_string = ''
         if sys.version_info >= (3, 0):
             decode_string = '.decode(\"utf-8\")'
 
         # add data location
-        setup_code = '''\ndata = urlreq.urlopen(\"{}{}\").read(){}
-'''.format(
+        setup_code = '''\ndata = urlreq.urlopen(\n \"{}\" + \n \"{}\"\n).read(){}\n\n'''.format(
             DATA_LOCATION_PREFIX,
             datafile['name'],
             decode_string
@@ -229,8 +227,8 @@ dash-bio/master/tests/dashbio_demos/sample_data/'''
             )
 
     # change urllib package if necessary (due to Python version)
-    if sys.version_info < (3, 0):
-        imports_string = imports_string.replace('urllib.request', 'urllib2')
+    imports_string = imports_string.replace('urllib.request',
+                                            'six.moves.urllib.request')
 
     # full code
     example_string = '''import {} as {}
@@ -386,6 +384,112 @@ def create_examples(
     return examples
 
 
+def generate_prop_table(
+        component_name,
+        component_names,
+        library_name
+):
+    '''Generate a prop table for each component (both React and Python).
+
+    :param (str) component_name: The name of the component as it is
+    defined within the package.
+    :param (dict[list]) component_names: A dictionary defining which
+    components are React components, and which are Python
+    components. The keys in the dictionary are 'react' and 'python',
+    and the values for each are lists containing the names of the
+    components that belong to each category.
+    :param (str) library_name: The name of the library.
+
+    :rtype (object): An html.Table containing data on the props of the component.
+
+    '''
+
+    regex = {
+         'python': r'^\s*([a-zA-Z_]*)\s*\(([a-zA-Z\/]*);\s*([a-z]*)\):\s*(.*?)\s*(\(Default:\s*(.*)\)|)\s*$'
+    }
+
+    component_type = 'react' \
+        if component_name in component_names['react'] else 'python'
+
+    tableRows = [html.Tr([
+        html.Th('Attribute'),
+        html.Th('Description'),
+        html.Th('Type'),
+        html.Th('Default value')
+    ])]
+
+    exec("import {}".format(library_name))
+
+    if component_type == 'python':
+        sep = '\n-'
+        doc = eval("{}.{}".format(library_name, component_name)).__doc__
+
+        props = doc.split(sep)
+
+    elif component_type == 'react':
+
+        path = os.path.join(os.path.dirname(os.path.abspath(eval(library_name).__file__)),
+                            'metadata.json')
+        with open(path, 'r') as f:
+            metadata = json.load(f)
+
+        # Mol3d for some reason is a plain JS file, not a react file
+        cname = '{}.react.js'.format(component_name)
+        if component_name == 'Molecule3dViewer':
+            cname = 'Molecule3dViewer.js'
+        elif component_name == 'Molecule2dViewer':
+            cname = 'Molecule2dViewer.react.js'
+        docs = metadata['src/lib/components/{}'.format(cname)]
+
+        props = docs['props']
+
+    for prop in props:
+        if component_type == 'python':
+            desc_sections = prop.split('\n\n')
+
+            partone = desc_sections[0].replace('    ', ' ')
+
+            r = re.match(
+                re.compile(regex[component_type]),
+                partone.replace('\n', ' ')
+            )
+
+            if r is None:
+                continue
+
+            (prop_name, prop_type, prop_optional, prop_desc, _, prop_default) = r.groups()
+            if prop_default is None:
+                prop_default = ''
+            if 'optional' in prop_optional:
+                prop_optional = ''
+
+            if len(desc_sections) > 1:
+                prop_desc += ' '
+                prop_desc += desc_sections[1]
+
+        elif component_type == 'react':
+            prop_name = prop
+            prop_desc = props[prop]['description']
+            prop_type = js_to_py_type(props[prop]['type'])
+
+            if 'defaultValue' in props[prop].keys():
+                prop_default = props[prop]['defaultValue']['value']
+            else:
+                prop_default = ''
+
+        tableRows.append(
+            html.Tr([html.Td(dcc.Markdown(prop_name)),
+                     html.Td(dcc.Markdown(prop_desc)),
+                     html.Td(dcc.Markdown(prop_type)),
+                     html.Td(dcc.SyntaxHighlighter(prop_default))])
+        )
+
+    return html.Div([
+        html.H3("{} Properties".format(component_name)),
+        html.Table(tableRows)
+    ])
+
+
 def create_doc_page(examples, component_names, component_name, component_examples=None):
     '''Generates a documentation page for a component.
 
@@ -410,6 +514,8 @@ def create_doc_page(examples, component_names, component_name, component_example
 
     if c_name == 'Molecule3DViewer':
         c_name = 'Molecule3dViewer'
+    elif c_name == 'Molecule2DViewer':
+        c_name = 'Molecule2dViewer'
 
     return html.Div(
         children=[
