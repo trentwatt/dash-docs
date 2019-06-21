@@ -66,10 +66,9 @@ def IframeComponentBlock(
     '''
 
     return html.Div([
-        dcc.SyntaxHighlighter(
-            example_string,
-            language='python',
-            customStyle=styles.code_container
+        dcc.Markdown(
+            '```python  \n' + example_string + '  \n```',
+            style=styles.code_container
         ),
         html.Div(
             className='example-container',
@@ -359,8 +358,8 @@ def create_default_example(
         any extra properties.".format(
             component_name.replace('-', ' ')
         )),
-        dcc.SyntaxHighlighter(
-            example_code[0],
+        dcc.Markdown(
+            '```python  \n' + example_code[0] + '  \n```',
         ),
         html.Div(
             example_code[1],
@@ -377,7 +376,7 @@ def create_examples(
     for example in examples_data:
         examples += [
             html.H3(example['param_name'].title()),
-            dcc.Markdown(example['description']),
+            dcc.Markdown('```python  \n' + example['description'] + '  \n```'),
             ComponentBlock(example['code']),
             html.Hr()
         ]
@@ -481,7 +480,7 @@ def generate_prop_table(
             html.Tr([html.Td(dcc.Markdown(prop_name)),
                      html.Td(dcc.Markdown(prop_desc)),
                      html.Td(dcc.Markdown(prop_type)),
-                     html.Td(dcc.SyntaxHighlighter(prop_default))])
+                     html.Td(dcc.Markdown('```python \n' + prop_default + '\n```'))])
         )
 
     return html.Div([
