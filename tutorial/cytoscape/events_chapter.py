@@ -139,7 +139,7 @@ layout = html.Div([
     PythonSnippet('''
         app.layout = html.Div([
             cyto.Cytoscape(
-                id='cytoscape-event-callbacks',
+                id='cytoscape-event-callbacks-2',
                 layout={'name': 'preset'},
                 elements=edges+nodes,
                 stylesheet=default_stylesheet,
@@ -153,28 +153,28 @@ layout = html.Div([
 
 
         @app.callback(Output('cytoscape-tapNodeData-output', 'children'),
-                      [Input('cytoscape-event-callbacks', 'tapNodeData')])
+                      [Input('cytoscape-event-callbacks-2', 'tapNodeData')])
         def displayTapNodeData(data):
             if data:
                 return "You recently clicked/tapped the city: " + data['label']
 
 
         @app.callback(Output('cytoscape-tapEdgeData-output', 'children'),
-                      [Input('cytoscape-event-callbacks', 'tapEdgeData')])
+                      [Input('cytoscape-event-callbacks-2', 'tapEdgeData')])
         def displayTapEdgeData(data):
             if data:
                 return "You recently clicked/tapped the edge between " + data['source'].upper() + " and " + data['target'].upper()
 
 
         @app.callback(Output('cytoscape-mouseoverNodeData-output', 'children'),
-                      [Input('cytoscape-event-callbacks', 'mouseoverNodeData')])
+                      [Input('cytoscape-event-callbacks-2', 'mouseoverNodeData')])
         def displayTapNodeData(data):
             if data:
                 return "You recently hovered over the city: " + data['label']
 
 
         @app.callback(Output('cytoscape-mouseoverEdgeData-output', 'children'),
-                      [Input('cytoscape-event-callbacks', 'mouseoverEdgeData')])
+                      [Input('cytoscape-event-callbacks-2', 'mouseoverEdgeData')])
         def displayTapEdgeData(data):
             if data:
                 return "You recently hovered over the edge between " + data['source'].upper() + " and " + data['target'].upper()
@@ -197,7 +197,7 @@ layout = html.Div([
     PythonSnippet('''
         app.layout = html.Div([
             cyto.Cytoscape(
-                id='cytoscape-event-callbacks',
+                id='cytoscape-event-callbacks-3',
                 layout={'name': 'preset'},
                 elements=edges+nodes,
                 stylesheet=default_stylesheet,
@@ -208,13 +208,13 @@ layout = html.Div([
 
 
         @app.callback(Output('cytoscape-selectedNodeData-markdown', 'children'),
-                      [Input('cytoscape-event-callbacks', 'selectedNodeData')])
+                      [Input('cytoscape-event-callbacks-3', 'selectedNodeData')])
         def displaySelectedNodeData(data_list):
             if not data_list:
                 return
 
             cities_list = [data['label'] for data in data_list]
-            return "You selected the following cities:" + "\\n* ".join(cities_list)
+            return "You selected the following cities: " + "\\n* ".join(cities_list)
     '''),
 
     html.Div(
