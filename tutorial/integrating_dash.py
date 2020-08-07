@@ -179,7 +179,6 @@ layout = html.Div([
     """
     from werkzeug.wsgi import DispatcherMiddleware
     from werkzeug.serving import run_simple
-    
     from flask_app import flask_app
     from app1 import app as app1
     from app2 import app as app2
